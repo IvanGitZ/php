@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ajax 1 - 请求纯文本数据</title>
+</head>
+<body>
+	<button id="button">请求纯文本</button>
+	<br>
+	<br>
+	<div id="text"></div>
+</body>
+<script>
+	//监听button对象
+	var btn = document.getElementById('button');
+	btn.addEventListener("click",loadText);
+	//实现loadText方法
+	function loadText(){
+		//Asynchronous JavaScript And XML(XML是一种数据格式,标记语言)
+		//请求方式 axios / Fetch API / prototype / NODE API / jQuery
+		//XMLHttpRequest
+
+		//1.实例化xhr对象
+		var xhr = new XMLHttpRequest();
+		// console.log(xhr.readyState);
+		// console.log(xhr);
+
+		//2.配置对象信息 type url/file asyn(是否异步)
+			//同步,一个厕所🚻一个上完另一个上
+			//异步,两个人同时上两个厕所🚻
+		xhr.open("GET","sample.txt",true);
+		// console.log(xhr.readyState);
+
+
+		//3.执行处理数据的两种方法
+		// xhr.onload = function(){
+		// 	// console.log(xhr.readyState);//只会打印4
+		// 	// console.log(this.responseText);
+		// 	if (this.status == 200) {
+		// 		console.log(this.responseText);
+		// 	}
+		// }
+
+		xhr.onprogress = function(){
+			//监听3,做用户引导页面
+			console.log("加载页面"+this.readyState);
+		}
+
+		xhr.onreadystatechange = function(){
+		// 	console.log(xhr.readyState);//会打印234
+		// 	console.log(this.responseText);
+		// console.log(this.status == 200);//网络连通
+			if (this.readyState == 4 && this.status == 200) {
+				console.log(this.responseText);
+				document.getElementById('text').innerHTML = this.responseText;
+			}
+		}
+		//4.发送请求
+		xhr.send();
+	}
+
+	/*
+		0: 请求未初始化
+		1: 服务器连接已建立
+		2: 请求已接收
+		3: 请求处理中
+		4: 请求已完成，且响应已就绪
+
+		200 : ok
+		404 : 页面未找到
+
+	*/
+</script>
+</html>
