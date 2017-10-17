@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Ajax 4 - 请求php接口</title>
+</head>
+<body>
+	<button id="button">获取数据</button>
+	
+	<div id="process"></div>
+
+	<h1>AJAX POST FORM</h1>
+	<form id="postform">
+		<input type="text" name="name" id="name2">
+		<input type="submit" value="Submit">		
+	</form>
+</body>
+
+<script>
+	//使用post方法对数据进行操作
+	document.getElementById('postform').addEventListener('submit',postdata);
+	function postdata(e){
+		e.preventDefault();
+		var name = document.getElementById('name2').value;
+		var params = "name="+name;
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST',"myprocess.php",true);
+		//POST请求一定要设置请求头
+		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+		xhr.onreadystatechange = function(){
+			if (this.readyState == 4 && this.status == 200) {
+				document.getElementById('process').innerHTML =  this.responseText;
+			}
+		}
+		xhr.send(params);
+	}
+
+
+</script>
+</html>
